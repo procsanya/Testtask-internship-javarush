@@ -33,22 +33,22 @@ public class Player {
 
     }
 
-    public Player(String name, String title, Race race, Profession profession, Date birthday, Integer experience) {
-        setName(name);
-        setTitle(title);
-        setRace(race);
-        setProfession(profession);
-        setBirthDay(birthday);
-        setExperience(experience);
-        level = countLevel(experience);
-        untilNextLevel = countUnitNextLevel(level, experience);
-        System.out.println("constructor");
-    }
-
-    public Player(String name, String title, Race race, Profession profession, Date birthday, Boolean banned, Integer experience) {
-        this(name, title, race, profession, birthday, experience);
-        setBanned(banned);
-    }
+//    public Player(String name, String title, Race race, Profession profession, Date birthday, Integer experience) {
+//        setName(name);
+//        setTitle(title);
+//        setRace(race);
+//        setProfession(profession);
+//        setBirthDay(birthday);
+//        setExperience(experience);
+//        level = countLevel(experience);
+//        untilNextLevel = countUnitNextLevel(level, experience);
+//        System.out.println("constructor");
+//    }
+//
+//    public Player(String name, String title, Race race, Profession profession, Date birthday, Boolean banned, Integer experience) {
+//        this(name, title, race, profession, birthday, experience);
+//        setBanned(banned);
+//    }
 
     public static Integer countLevel(Integer experience) {
         return (int) ((Math.sqrt(25 + 2 * experience) - 5) / 10);
