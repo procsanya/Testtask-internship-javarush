@@ -182,7 +182,6 @@ public class Player {
         if (time >= startTime && time <= endTime) {
             this.birthday = birthday;
         }
-        //System.out.println("setDate " + birthday);
     }
 
     public void setBanned(Boolean banned) {

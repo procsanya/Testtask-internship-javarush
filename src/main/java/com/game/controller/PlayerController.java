@@ -1,8 +1,7 @@
 package com.game.controller;
 
-import com.game.entity.Race;
 import com.game.entity.Player;
-import com.game.entity.Profession;
+import com.game.entity.SearchFilters;
 import com.game.service.PlayerService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,23 +22,13 @@ public class PlayerController {
     }
 
     @GetMapping("/rest/players")
-    public ResponseEntity<List<Player>> getPlayers(String name, String title, Race race, Profession profession, Long after, Long before,
-                                                   Boolean banned, Integer minExperience, Integer maxExperience, Integer minLevel,
-                                                   Integer maxLevel, PlayerOrder order, Integer pageNumber, Integer pageSize) {
-
-        List<Player> players = service.getPlayers(name, title, race, profession, after, before, banned, minExperience,
-                                                  maxExperience, minLevel, maxLevel, order, pageNumber, pageSize);
-        return new ResponseEntity<>(players, HttpStatus.OK);
+    public ResponseEntity<List<Player>> getPlayers(SearchFilters searchFilters) {
+        return new ResponseEntity<>(service.getPlayers(searchFilters), HttpStatus.OK);
     }
 
     @GetMapping("/rest/players/count")
-    public ResponseEntity<Long> getPlayersCount(String name, String title, Race race, Profession profession,
-                                                Long after, Long before, Boolean banned, Integer minExperience,
-                                                Integer maxExperience, Integer minLevel, Integer maxLevel) {
-
-        long result = service.getPlayersCount(name, title, race, profession, after, before, banned,
-                                              minExperience, maxExperience, minLevel, maxLevel);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public ResponseEntity<Long> getPlayersCount(SearchFilters searchFilters) {
+        return new ResponseEntity<>(service.getPlayersCount(searchFilters), HttpStatus.OK);
     }
 
     @PostMapping("/rest/players")

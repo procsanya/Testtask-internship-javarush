@@ -2,19 +2,22 @@ package com.game.entity;
 
 import com.game.controller.PlayerOrder;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
-
-import java.util.Date;
 
 @Component
 @Scope("prototype")
+// This class was created in order to remove 14 arguments in PlayerController.getPlayers()
 public class SearchFilters {
     private String name;
     private String title;
     private Race race;
     private Profession profession;
-    private Date after;
-    private Date before;
+    private Long after;
+    private Long before;
     private Boolean banned;
     private Integer minExperience;
     private Integer maxExperience;
@@ -56,24 +59,20 @@ public class SearchFilters {
         this.profession = profession;
     }
 
-    public Date getAfter() {
+    public long getAfter() {
         return after;
     }
 
     public void setAfter(Long after) {
-        if (after != null) {
-            this.after = new Date(after);
-        }
+            this.after = after;
     }
 
-    public Date getBefore() {
+    public Long getBefore() {
         return before;
     }
 
     public void setBefore(Long before) {
-        if (before != null) {
-            this.before = new Date(before);
-        }
+            this.before = before;
     }
 
     public Boolean getBanned() {
@@ -138,6 +137,29 @@ public class SearchFilters {
 
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
+    }
+
+    public Pageable getPageable() {
+        if (order == null) {
+            order = PlayerOrder.ID;
+        }
+        if (pageNumber == null) {
+            pageNumber = 0;
+        }
+        if (pageSize == null) {
+            pageSize = 3;
+        }
+
+        return PageRequest.of(pageNumber, pageSize, Sort.by(order.getFieldName()));
+    }
+
+    public Specification<Player> getSpecification() {
+        return Specification.where(Specifications.filterByName(name)).and(Specifications.filterByTitle(title))
+                    .and(Specifications.filterByRace(race)).and(Specifications.filterByProfession(profession))
+                    .and(Specifications.filterByAfter(after)).and(Specifications.filterByBefore(before))
+                    .and(Specifications.filterByBanned(banned)).and(Specifications.filterByMinExperience(minExperience))
+                    .and(Specifications.filtersByMaxExperience(maxExperience)).and(Specifications.filterByMinLevel(minLevel))
+                    .and(Specifications.filterByMaxLevel(maxLevel));
     }
 
     @Override
